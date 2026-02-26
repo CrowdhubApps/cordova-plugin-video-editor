@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-video-editor" version="3.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="cordova-plugin-video-editor" version="3.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>VideoEditor</name>
     <description>A plugin to assist in video editing tasks</description>
     <keywords>cordova,video,editing,transcoding,encoding</keywords>
@@ -43,16 +43,12 @@
             </feature>
         </config-file>
 
-        <header-file src="src/ios/VideoEditor.h" />
-        <source-file src="src/ios/VideoEditor.m" />
+        <source-file src="src/ios/VideoEditor.swift" />
+        <source-file src="src/ios/SDAVAssetExportSession.swift" />
 
-        <header-file src="src/ios/SDAVAssetExportSession.h" />
-        <source-file src="src/ios/SDAVAssetExportSession.m" />
-
-        <framework src="AssetsLibrary.framework" />
         <framework src="AVFoundation.framework" />
-        <framework src="MediaPlayer.framework" />
         <framework src="CoreVideo.framework" />
+        <framework src="Photos.framework" />
     </platform>
 
     <!-- Windows 8 -->

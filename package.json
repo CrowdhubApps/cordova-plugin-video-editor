@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-video-editor",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Cordova Video Editor Plugin",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -41,13 +41,18 @@
       "name": "Ross Martin",
       "web": "https://twitter.com/MountainDoofus",
       "email": "rmartin311@gmail.com"
+    },
+    {
+      "name": "Austin Isakson",
+      "web": "https://www.austinisakson.com",
+      "email": "austini@crowdhubapps.com"
     }
   ],
   "keywords": [],
   "author": "Enzo BLANCHON",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Eblancho/cordova-plugin-video-editor/issues"
+    "url": "https://github.com/CrowdhubApps/cordova-plugin-video-editor/issues"
   },
-  "homepage": "https://github.com/Eblancho/cordova-plugin-video-editor#readme"
+  "homepage": "https://github.com/CrowdhubApps/cordova-plugin-video-editor#readme"
 }
