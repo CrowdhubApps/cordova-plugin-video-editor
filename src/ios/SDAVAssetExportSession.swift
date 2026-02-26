@@ -6,9 +6,9 @@
 //  unlike AVAssetExportSession which only supports preset-based encoding.
 //
 
-import Foundation
 import AVFoundation
 import CoreVideo
+import Foundation
 
 @objc protocol SDAVAssetExportSessionDelegate: AnyObject {
     func exportSession(
@@ -39,11 +39,11 @@ class SDAVAssetExportSession: NSObject {
 
     @objc var status: AVAssetExportSession.Status {
         switch writer?.status {
-        case .writing:   return .exporting
-        case .failed:    return .failed
+        case .writing: return .exporting
+        case .failed: return .failed
         case .completed: return .completed
         case .cancelled: return .cancelled
-        default:         return .unknown
+        default: return .unknown
         }
     }
 
@@ -143,7 +143,7 @@ class SDAVAssetExportSession: NSObject {
                 kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
                 kCVPixelBufferWidthKey as String: renderSize.width,
                 kCVPixelBufferHeightKey as String: renderSize.height,
-                kCVPixelBufferMetalCompatibilityKey as String: true
+                kCVPixelBufferMetalCompatibilityKey as String: true,
             ]
             videoPixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(
                 assetWriterInput: videoInput!,
@@ -209,7 +209,9 @@ class SDAVAssetExportSession: NSObject {
         }
     }
 
-    private func encodeReadySamples(from output: AVAssetReaderOutput, to input: AVAssetWriterInput) -> Bool {
+    private func encodeReadySamples(from output: AVAssetReaderOutput, to input: AVAssetWriterInput)
+        -> Bool
+    {
         while input.isReadyForMoreMediaData {
             guard let sampleBuffer = output.copyNextSampleBuffer() else {
                 input.markAsFinished()
@@ -226,13 +228,17 @@ class SDAVAssetExportSession: NSObject {
 
             if !handled, output === videoOutput {
                 lastSamplePresentationTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
-                lastSamplePresentationTime = CMTimeSubtract(lastSamplePresentationTime, timeRange.start)
-                progress = duration == 0 ? 1.0 : Float(CMTimeGetSeconds(lastSamplePresentationTime) / duration)
+                lastSamplePresentationTime = CMTimeSubtract(
+                    lastSamplePresentationTime, timeRange.start)
+                progress =
+                    duration == 0
+                    ? 1.0 : Float(CMTimeGetSeconds(lastSamplePresentationTime) / duration)
 
                 if let delegate = delegate,
-                   let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer),
-                   let adaptor = videoPixelBufferAdaptor,
-                   let pool = adaptor.pixelBufferPool {
+                    let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer),
+                    let adaptor = videoPixelBufferAdaptor,
+                    let pool = adaptor.pixelBufferPool
+                {
                     var renderBuffer: CVPixelBuffer?
                     CVPixelBufferPoolCreatePixelBuffer(nil, pool, &renderBuffer)
                     if let renderBuffer = renderBuffer {
@@ -242,7 +248,9 @@ class SDAVAssetExportSession: NSObject {
                             withPresentationTime: lastSamplePresentationTime,
                             toBuffer: renderBuffer
                         )
-                        if !adaptor.append(renderBuffer, withPresentationTime: lastSamplePresentationTime) {
+                        if !adaptor.append(
+                            renderBuffer, withPresentationTime: lastSamplePresentationTime)
+                        {
                             encodeError = true
                         }
                     }
@@ -267,7 +275,8 @@ class SDAVAssetExportSession: NSObject {
 
         var trackFrameRate: Float = 0
         if let compressionProps = videoSettings?[AVVideoCompressionPropertiesKey] as? [String: Any],
-           let maxKeyFrameInterval = compressionProps[AVVideoMaxKeyFrameIntervalKey] as? NSNumber {
+            let maxKeyFrameInterval = compressionProps[AVVideoMaxKeyFrameIntervalKey] as? NSNumber
+        {
             trackFrameRate = maxKeyFrameInterval.floatValue
         } else {
             trackFrameRate = videoTrack.nominalFrameRate
