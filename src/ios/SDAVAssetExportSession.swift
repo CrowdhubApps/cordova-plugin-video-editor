@@ -110,7 +110,7 @@ class SDAVAssetExportSession: NSObject {
         writer!.shouldOptimizeForNetworkUse = shouldOptimizeForNetworkUse
         writer!.metadata = metadata
 
-        if CMTIME_IS_VALID(timeRange.duration) && !CMTIME_IS_POSITIVE_INFINITY(timeRange.duration) {
+        if timeRange.duration.isValid && !timeRange.duration.isPositiveInfinity {
             duration = CMTimeGetSeconds(timeRange.duration)
         } else {
             duration = CMTimeGetSeconds(asset.duration)
