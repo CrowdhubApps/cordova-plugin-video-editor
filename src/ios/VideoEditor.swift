@@ -325,8 +325,8 @@ class VideoEditor: CDVPlugin {
             let stopTime  = CMTimeMakeWithSeconds(Float64(trimEnd),   preferredTimescale: preferredTimeScale)
             exportSession.timeRange = CMTimeRangeFromTimeToTime(start: startTime, end: stopTime)
 
-            let startDesc = CMTimeCopyDescription(allocator: nil, time: startTime) as String
-            let stopDesc  = CMTimeCopyDescription(allocator: nil, time: stopTime) as String
+            let startDesc = CMTimeCopyDescription(allocator: nil, time: startTime) as String? ?? "\(trimStart)s"
+            let stopDesc  = CMTimeCopyDescription(allocator: nil, time: stopTime) as String? ?? "\(trimEnd)s"
             print("VideoEditor trim: duration=\(avAsset.duration.value), start=\(startDesc), end=\(stopDesc)")
 
             let semaphore = DispatchSemaphore(value: 0)
